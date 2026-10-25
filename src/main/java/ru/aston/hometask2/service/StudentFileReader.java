@@ -57,8 +57,10 @@ public class StudentFileReader {
             String[] bookParts = parts[i].split(BOOK_DELIMITER);
             if (bookParts.length != 4) throw new IllegalArgumentException("Неверный формат книги: " + parts[i]);
 
-            books.add(new Book(bookParts[IDX_TITLE].trim(), bookParts[IDX_AUTHOR].trim(),
-                    Integer.parseInt(bookParts[IDX_PAGES].trim()), Integer.parseInt(bookParts[IDX_YEAR].trim())));
+            books.add(new Book.Builder(bookParts[IDX_TITLE].trim(), bookParts[IDX_AUTHOR].trim())
+                    .pages(Integer.parseInt(bookParts[IDX_PAGES].trim()))
+                    .year(Integer.parseInt(bookParts[IDX_YEAR].trim()))
+                    .build());
         }
         if (books.size() < MIN_BOOKS) throw new IllegalArgumentException("Меньше " + MIN_BOOKS + " книг");
         return new Student(studentName, books);

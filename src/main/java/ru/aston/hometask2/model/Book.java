@@ -7,18 +7,21 @@ public class Book implements Comparable<Book> {
     private final String author;
     private final int pages;
     private final int year;
+    private final String genre;
 
-    public Book(final String title, final String author, final int pages, final int year) {
-        this.title = title;
-        this.author = author;
-        this.pages = pages;
-        this.year = year;
+    private Book(Builder builder) {
+        this.title = builder.title;
+        this.author = builder.author;
+        this.pages = builder.pages;
+        this.year = builder.year;
+        this.genre = builder.genre;
     }
 
     public String getTitle() { return title; }
     public String getAuthor() { return author; }
     public int getPages() { return pages; }
     public int getYear() { return year; }
+    public String getGenre() { return genre; }
 
     @Override
     public int compareTo(final Book other) {
@@ -48,5 +51,27 @@ public class Book implements Comparable<Book> {
     @Override
     public String toString() {
         return "Book{" + title + ", " + author + ", " + pages + " стр., " + year + "}";
+    }
+
+    // Паттерн Билдер
+    public static class Builder {
+        private final String title;
+        private final String author;
+        private int pages;
+        private int year;
+        private String genre = "Unknown";
+
+        public Builder(String title, String author) {
+            this.title = title;
+            this.author = author;
+        }
+
+        public Builder pages(int pages) { this.pages = pages; return this; }
+        public Builder year(int year) { this.year = year; return this; }
+        public Builder genre(String genre) { this.genre = genre; return this; }
+
+        public Book build() {
+            return new Book(this);
+        }
     }
 }
